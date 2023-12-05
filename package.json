@@ -36,6 +36,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/react-redux": "^7.1.32",
     "@types/react-slick": "^0.23.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
