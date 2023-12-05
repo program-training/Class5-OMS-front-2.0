@@ -9,7 +9,7 @@ import EditOrderPage from "../orders/components/pages/EditOrderPage";
 import { useAppSelector } from "../../store/hooks";
 import NotLoggedInPage from "../layout/NotLoggedInPage/NotLoggedInPage";
 const RouterDom = () => {
-  const token = useAppSelector((store) => store.token.token);
+  const token = "loggedin";
   return (
     <Routes>
       <Route path="/oms" element={<HomePage />} />
