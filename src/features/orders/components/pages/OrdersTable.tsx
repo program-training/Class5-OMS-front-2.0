@@ -18,18 +18,15 @@ import { GET_ORDERS } from "../../../recipes/services/apollo/queries";
 import { setOrders } from "../../ordersSlice";
 
 const OrdersTable = () => {
-  const { filteredOrders: orders } = useAppSelector((store) => store.orders);
-  // const [orders, setOrdersData] = useState<Order[]>([]);
+  const { orders } = useAppSelector((store) => store.orders);
   const { loading, error, data } = useQuery(GET_ORDERS);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (!loading) {
-      // setOrdersData(data.getAllOrdersFromMongoDB);
+    if (data) {
       dispatch(setOrders(data.getAllOrdersFromMongoDB));
-      console.log(orders, "table");
     }
-  }, [loading]);
+  }, [data]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
@@ -45,7 +42,7 @@ const OrdersTable = () => {
       setRowsPerPage
     );
   useEffect(() => {
-    const timeoutId = setTimeout(changeStatus, 10000);
+    const timeoutId = setTimeout(changeStatus, 100000);
     return () => clearTimeout(timeoutId);
   }, [orders]);
   if (loading) return <p>Loading... </p>;
