@@ -9,14 +9,10 @@ export const filteredOrdersUtils = (
   rowsPerPage: number,
   setRowsPerPage: React.Dispatch<React.SetStateAction<number>>
 ) => {
-  const filteredOrders = orders
-    ? orders.filter((order) => {
-        const searchValue = searchTerm.toLowerCase();
-        return String(order.shippingDetails?.userId)
-          .toLowerCase()
-          .includes(searchValue);
-      })
-    : [];
+  const filteredOrders =
+    searchTerm.length && orders
+      ? orders.filter((order) => order.shippingDetails.userId === searchTerm)
+      : [];
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,

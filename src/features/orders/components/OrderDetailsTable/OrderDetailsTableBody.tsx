@@ -3,18 +3,18 @@ import { FC } from "react";
 import Product from "../../interfaces/product";
 import { useAppSelector } from "../../../../store/hooks";
 
-type OrderDetailsTableBodyProps = { filteredCartItems: Product[] };
+type OrderDetailsTableBodyProps = {
+  filteredCartItems: Product[];
+  totalQuantity: number;
+  totalPrice: number;
+};
 
 const OrderDetailsTableBody: FC<OrderDetailsTableBodyProps> = ({
   filteredCartItems,
+  totalQuantity,
+  totalPrice,
 }) => {
   const themeMode = useAppSelector((state) => state.themeMode.themeMode);
-  const price = useAppSelector((state) => state.orders.order.price);
-  const cartItems = useAppSelector((state) => state.orders.order.cartItems);
-  const totalQuantity = cartItems.reduce(
-    (acc: number, product: { quantity: number }) => acc + product.quantity,
-    0
-  );
 
   return (
     <TableBody>
@@ -56,7 +56,7 @@ const OrderDetailsTableBody: FC<OrderDetailsTableBodyProps> = ({
             gutterBottom
             style={{ alignSelf: "flex-start" }}
           >
-            Total Price: ${price}
+            Total Price: ${totalPrice}
           </Typography>
         </TableCell>
       </TableRow>

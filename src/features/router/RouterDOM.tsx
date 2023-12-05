@@ -6,7 +6,7 @@ import NotFoundPage from "../layout/NotFoundPage/NotFoundPage";
 import OrderManagementPage from "../orders/pages/OrderManagementPage";
 import OrderDetailsPage from "../orders/pages/OrderDetailsPage";
 import EditOrderPage from "../orders/components/pages/EditOrderPage";
-// import { useAppSelector } from "../../store/hooks";
+
 import NotLoggedInPage from "../layout/NotLoggedInPage/NotLoggedInPage";
 const RouterDom = () => {
   const token = "loggedin";
@@ -16,14 +16,14 @@ const RouterDom = () => {
       <Route path="/oms/signIn" element={<SignInPage />} />
       <Route path="/oms/signUp" element={<SignUpPage />} />
       <Route path="*" element={<NotFoundPage />} />
-      <Route path="/oms/orderDetails" element={<OrderDetailsPage />} />
+      <Route path="/oms/orderDetails/:orderId" element={<OrderDetailsPage />} />
       <Route
         path="/oms/orders"
         element={
           token === "loggedin" ? <OrderManagementPage /> : <NotLoggedInPage />
         }
       />
-      <Route path="/oms/editOrderPage" element={<EditOrderPage />} />
+      <Route path="/oms/editOrderPage/" element={<EditOrderPage />} />
     </Routes>
   );
 };

@@ -1,48 +1,80 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Table, TableContainer, Paper, Box, Container } from "@mui/material";
-import { useAppSelector } from "../../../../store/hooks";
 import OrderDetailsTableTop from "../OrderDetailsTable/OrderDetailsTableTop";
 import OrderDetailsTableHead from "../OrderDetailsTable/OrderDetailsTableHead";
 import OrderDetailsTableBody from "../OrderDetailsTable/OrderDetailsTableBody";
 import OrderDetailsTableBottom from "../OrderDetailsTable/OrderDetailsTableBottom";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_ORDER_BY_ID } from "../../../recipes/services/apollo/queries";
+import Order from "../../interfaces/order";
+import NotFoundPage from "../../../layout/NotFoundPage/NotFoundPage";
+import Product from "../../interfaces/product";
 
 const OrderDetailsTable = () => {
-  const cartItems = useAppSelector((state) => state.orders.order);
+  const { orderId } = useParams();
+  console.log(orderId);
 
-  const customerNumber = cartItems._id;
+  // const cartItems = useAppSelector((state) => state.orders.order);
+  const [order, setOrder] = useState<Order>();
+  const [filteredItems, setFilteredItems] = useState<Product[]>([]);
+  const { loading, error, data } = useQuery(GET_ORDER_BY_ID, {
+    variables: { getOrderByIdId: orderId },
+  });
   const [searchTerm, setSearchTerm] = useState("");
+  useEffect(() => {
+    if (data) {
+      setOrder(data.getOrderById);
+      setFilteredItems(data.getOrderById.cartItems);
+      console.log(data);
+    }
+  }, [data]);
+  // const customerNumber = cartItems._id;
+  useEffect(() => {
+    if (order) {
+      const filteredCartItems = order.cartItems.filter(
+        (product: { name: string }) =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredItems(filteredCartItems);
+    }
+  }, [searchTerm]);
 
-  const filteredCartItems = cartItems.cartItems.filter(
-    (product: { name: string }) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  if (loading) return <p>Loading... </p>;
+  if (error) return <p>{error.message}</p>;
+  if (!loading && !data) return <NotFoundPage />;
   return (
     <Container>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          marginTop: 10,
-          textAlign: "center",
-        }}
-      >
-        <OrderDetailsTableTop
-          customerNumber={customerNumber}
-          setSearchTerm={setSearchTerm}
-        />
-        <TableContainer
-          component={Paper}
-          sx={{ height: "100%", width: "100%" }}
+      {order && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            marginTop: 10,
+            textAlign: "center",
+          }}
         >
-          <Table>
-            <OrderDetailsTableHead />
-            <OrderDetailsTableBody filteredCartItems={filteredCartItems} />
-          </Table>
-        </TableContainer>
-        <OrderDetailsTableBottom />
-      </Box>
+          <OrderDetailsTableTop
+            customerNumber={order._id}
+            setSearchTerm={setSearchTerm}
+          />
+          <TableContainer
+            component={Paper}
+            sx={{ height: "100%", width: "100%" }}
+          >
+            <Table>
+              <OrderDetailsTableHead />
+              <OrderDetailsTableBody
+                filteredCartItems={filteredItems}
+                totalPrice={order.price}
+                totalQuantity={order.cartItems.length}
+              />
+            </Table>
+          </TableContainer>
+          <OrderDetailsTableBottom />
+        </Box>
+      )}
     </Container>
   );
 };
