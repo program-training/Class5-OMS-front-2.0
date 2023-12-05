@@ -15,19 +15,9 @@ import SignInButton from "./SignInButton";
 export const SignIn = () => {
   const {
     register,
-    handleSubmit,
     watch,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
-
-  const onSubmit = (event: FieldValues) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -43,7 +33,7 @@ export const SignIn = () => {
         <HeaderSignIn />
         <Box
           component="form"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={(e) => e.preventDefault()}
           noValidate
           sx={{ mt: 3 }}
         >
