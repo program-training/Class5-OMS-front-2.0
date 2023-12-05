@@ -33,7 +33,7 @@ export const filteredOrdersUtils = (
     setPage(0);
   };
 
-  const data =
+  const ordersData =
     rowsPerPage > 0
       ? filteredOrders.slice(
           page * rowsPerPage,
@@ -41,5 +41,10 @@ export const filteredOrdersUtils = (
         )
       : filteredOrders;
 
-  return { filteredOrders, handleChangePage, handleChangeRowsPerPage, data };
+  return {
+    filteredOrders,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    ordersData,
+  };
 };
