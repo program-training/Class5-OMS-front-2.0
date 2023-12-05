@@ -8,6 +8,8 @@ import OrdersCancelReceive from "./OrdersCancelReceive";
 import OrdersButtonTable from "./OrdersButtonTable";
 
 const OrdersBodyTable: React.FC<OrdersTableProps> = ({ currentOrders }) => {
+  console.log(currentOrders);
+
   const navigate = useNavigate();
   const themeMode = useAppSelector((state) => state.themeMode.themeMode);
   const dispatch = useAppDispatch();

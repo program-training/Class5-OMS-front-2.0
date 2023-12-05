@@ -25,6 +25,7 @@ export const ordersSlice = createSlice({
   reducers: {
     setOrders: (state, action: PayloadAction<Order[]>) => {
       state.orders = action.payload;
+      state.filteredOrders = action.payload;
     },
     setOrder: (state, action: PayloadAction<Order>) => {
       state.order = action.payload;

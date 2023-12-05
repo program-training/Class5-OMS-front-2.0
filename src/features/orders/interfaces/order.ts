@@ -1,5 +1,6 @@
 import Product from "./product";
 interface Order {
+  __typename: string;
   _id: string;
   cartItems: Product[];
   orderTime: Date;
