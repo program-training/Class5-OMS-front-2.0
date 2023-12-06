@@ -4,7 +4,7 @@ export const SIGN_UP_MUTATION = gql`
   mutation SignUp($user: UserInput!) {
     createUser(user: $user) {
       email
-      isadmin
+      isAdmin
     }
   }
 `;
