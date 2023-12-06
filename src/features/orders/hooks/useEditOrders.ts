@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store/hooks";
 import { editOrderForm } from "../interfaces/editOrderForm";
-import editsOrderDetails from "../service/editsOrderDetails";
+import useUpdateOrder from "../service/editsOrderDetails";
 
 interface useEditOrdersProps {
   formValues: editOrderForm;
@@ -13,10 +13,8 @@ interface useEditOrdersProps {
 const useEditOrders = ({ formValues, setFormValues }: useEditOrdersProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartItem = useAppSelector(
-    (state) => state.orders.order.shippingDetails
-  );
   const orderId = useAppSelector((state) => state.orders.order._id);
+  const { updateOrderDetailsFunc, updateOrderStatus } = useUpdateOrder();
 
   const handleSave = () => {
     formValues.orderType;
@@ -30,13 +28,10 @@ const useEditOrders = ({ formValues, setFormValues }: useEditOrdersProps) => {
         },
       })
     );
-    editsOrderDetails(orderId, {
-      shippingDetails: {
-        address: formValues.address,
-        userId: cartItem.userId,
-        contactNumber: formValues.contactNumber,
-        orderType: formValues.orderType,
-      },
+    updateOrderDetailsFunc(orderId, {
+      address: formValues.address,
+      contactNumber: formValues.contactNumber,
+      orderType: formValues.orderType,
     });
     navigate("/oms/orders");
   };

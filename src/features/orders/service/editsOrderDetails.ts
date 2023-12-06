@@ -1,21 +1,48 @@
 import axios from "axios";
-const URL = `${import.meta.env.VITE_BASE_URL}/orders`;
+import { editOrderForm } from "../interfaces/editOrderForm";
+import { OrderStatus } from "../interfaces/order";
+import { useMutation } from "@apollo/client";
+import {
+  UPDATE_ORDER_DETAILS,
+  UPDATE_ORDER_STATUS,
+} from "../graphQl/orderMutations";
 
-const editsOrderDetails = (
-  orderId: string,
-  orderStatus: Record<string, unknown>
-) => {
-  axios
-    .put(`${URL}/${orderId}`, orderStatus)
-    .then(() => {
-      console.log("Success");
-    })
-    .catch((error) => {
-      console.error(
-        error.message,
-        "Error connecting to the orders status server"
-      );
-    });
+const useUpdateOrder = () => {
+  const [detailsMutation] = useMutation(UPDATE_ORDER_DETAILS);
+  const [statusMutation] = useMutation(UPDATE_ORDER_STATUS);
+
+  const updateOrderStatus = async (
+    orderId: string,
+    orderStatus: OrderStatus
+  ) => {
+    try {
+      const { data } = await statusMutation({
+        variables: { order: { orderId, status: orderStatus } },
+      });
+      if (!data.updateOrderStatus) throw new Error("failed");
+
+      return data.updateOrderStatus;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateOrderDetailsFunc = async (
+    orderId: string,
+    orderDetails: editOrderForm
+  ) => {
+    try {
+      const { data } = await detailsMutation({
+        variables: { order: { ...orderDetails, orderId } },
+      });
+      if (!data.updateOrderStatus) throw new Error("failed");
+      return data.updateOrderDetails;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { updateOrderDetailsFunc, updateOrderStatus };
 };
 
-export default editsOrderDetails;
+export default useUpdateOrder;

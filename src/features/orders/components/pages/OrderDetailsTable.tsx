@@ -6,10 +6,10 @@ import OrderDetailsTableBody from "../OrderDetailsTable/OrderDetailsTableBody";
 import OrderDetailsTableBottom from "../OrderDetailsTable/OrderDetailsTableBottom";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { GET_ORDER_BY_ID } from "../../../recipes/services/apollo/queries";
 import Order from "../../interfaces/order";
 import NotFoundPage from "../../../layout/NotFoundPage/NotFoundPage";
 import Product from "../../interfaces/product";
+import { GET_ORDER_BY_ID } from "../../graphQl/orderQueries";
 
 const OrderDetailsTable = () => {
   const { orderId } = useParams();
@@ -29,7 +29,6 @@ const OrderDetailsTable = () => {
       console.log(data);
     }
   }, [data]);
-  // const customerNumber = cartItems._id;
   useEffect(() => {
     if (order) {
       const filteredCartItems = order.cartItems.filter(
