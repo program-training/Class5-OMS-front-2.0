@@ -14,17 +14,18 @@ import OrdersBodyTable from "../ordersTable/ordersBodyTable/OrdersBodyTable";
 import useOrder from "../../hooks/useOrder";
 import { filteredOrdersUtils } from "../../../utils/utils";
 import { useQuery } from "@apollo/client";
-import { GET_ORDERS } from "../../../recipes/services/apollo/queries";
-import { setOrders } from "../../ordersSlice";
+import { setFilteredOrders, setOrders } from "../../ordersSlice";
+import { GET_ORDERS } from "../../graphQl/orderQueries";
 
 const OrdersTable = () => {
-  const { orders } = useAppSelector((store) => store.orders);
+  const { filteredOrders: orders } = useAppSelector((store) => store.orders);
   const { loading, error, data } = useQuery(GET_ORDERS);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (data) {
       dispatch(setOrders(data.getAllOrdersFromMongoDB));
+      dispatch(setFilteredOrders(data.getAllOrdersFromMongoDB));
     }
   }, [data]);
 

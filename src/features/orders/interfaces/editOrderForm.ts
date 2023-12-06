@@ -3,3 +3,7 @@ export interface editOrderForm {
   contactNumber: string;
   orderType: string;
 }
+
+export interface ShippingDetailsInterface {
+  shippingDetails: editOrderForm;
+}
