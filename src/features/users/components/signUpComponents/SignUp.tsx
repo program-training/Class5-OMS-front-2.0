@@ -6,24 +6,22 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { emailValidet, passwordValidet } from "../../helpers/validation";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Copyright } from "../../../layout/Copyright";
 import SignUpButton from "./SignUpButton";
 import PasswordInput from "./PasswordInput";
 import EmailInput from "./EmailInput";
 import ConfirmPasswordInputIn from "./ConfirmPasswordInput";
-import IsAdminComponent from "./IsAdminComponent";
+import { useState } from "react";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 export const SignUp = () => {
   const {
     register,
-    handleSubmit,
     watch,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
-  const onSubmit = (event: FieldValues) => {
-    event.preventDefault();
-  };
+  const [isadmin, setIsadmin] = useState<boolean>(false);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -45,7 +43,7 @@ export const SignUp = () => {
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={(e) => e.preventDefault()}
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
@@ -65,8 +63,20 @@ export const SignUp = () => {
               watch={watch}
             />
           </Grid>
-          <IsAdminComponent />
-          <SignUpButton text="Sign Up" isValid={isValid} watch={watch} />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Admin"
+            id="admin"
+            onChange={() => {
+              setIsadmin(!isadmin);
+            }}
+          />
+          <SignUpButton
+            text="Sign Up"
+            isValid={isValid}
+            watch={watch}
+            isAdmin={isadmin}
+          />
         </Box>
       </Box>
       <Copyright />

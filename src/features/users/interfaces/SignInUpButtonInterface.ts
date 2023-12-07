@@ -6,4 +6,5 @@ export interface SignInUpButtonInterface {
   text: string;
   isValid: boolean;
   watch: UseFormWatch<FieldValues>;
+  isAdmin?: boolean;
 }

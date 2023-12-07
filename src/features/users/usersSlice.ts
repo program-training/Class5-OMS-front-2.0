@@ -5,13 +5,13 @@ import UserInterface from "./interfaces/UserInterface";
 interface InitialState {
   users: [];
   loggedUser: UserInterface | Record<string, unknown>;
-  isAdmin: boolean;
+  isadmin: boolean;
 }
 
 const initialState: InitialState = {
   users: [],
   loggedUser: {},
-  isAdmin: false,
+  isadmin: false,
 };
 
 export const usersSlice = createSlice({
@@ -24,11 +24,11 @@ export const usersSlice = createSlice({
     setLoggedUser: (state, action: PayloadAction<UserInterface>) => {
       state.loggedUser = { ...state.loggedUser, ...action.payload };
     },
-    setIsAdmin: (state, action: PayloadAction<boolean>) => {
-      state.isAdmin = action.payload;
+    setIsadmin: (state, action: PayloadAction<boolean>) => {
+      state.isadmin = action.payload;
     },
   },
 });
 
-export const { setUsers, setLoggedUser, setIsAdmin } = usersSlice.actions;
+export const { setUsers, setLoggedUser, setIsadmin } = usersSlice.actions;
 export default usersSlice.reducer;
