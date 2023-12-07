@@ -2,11 +2,11 @@
 
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { setIsAdmin } from "../../usersSlice";
+import { setIsadmin } from "../../usersSlice";
 
 const IsAdminComponent = () => {
   const dispatch = useAppDispatch();
-  const isAdmin = useAppSelector((store) => store.users.isAdmin);
+  const isadmin = useAppSelector((store) => store.users.isadmin);
   return (
     <>
       {" "}
@@ -14,8 +14,11 @@ const IsAdminComponent = () => {
         control={<Checkbox value="remember" color="primary" />}
         label="Admin"
         id="admin"
-        onChange={() => {
-          dispatch(setIsAdmin(!isAdmin));
+        onSelect={() => {
+          console.log(isadmin);
+
+          dispatch(setIsadmin(!isadmin));
+          console.log(isadmin);
         }}
       />
     </>

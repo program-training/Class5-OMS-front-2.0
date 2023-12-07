@@ -7,6 +7,7 @@ export const LOGIN_MUTATION = gql`
       resInfoObj {
         user {
           email
+          isadmin
         }
         token
       }
